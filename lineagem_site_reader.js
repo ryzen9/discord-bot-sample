@@ -2,8 +2,7 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 const fs = require('fs');
 
-module.exports = class LineageMSiteReader {
-  static NEWS_TYPE = {
+  const NEWS_TYPE = {
     news: 0,
     event: 1,
     maintenance: 2,
@@ -12,9 +11,11 @@ module.exports = class LineageMSiteReader {
     other: 5, 
   }
 
+ class LineageMSiteReader {
+
   newsName(type) {
-    const name = Object.keys(LineageMSiteReader.NEWS_TYPE)[Object.values(LineageMSiteReader.NEWS_TYPE).indexOf(type)]
-    return type !== LineageMSiteReader.NEWS_TYPE.news ? `news_${name}` : 'news';
+    const name = Object.keys(NEWS_TYPE)[Object.values(NEWS_TYPE).indexOf(type)]
+    return type !== NEWS_TYPE.news ? `news_${name}` : 'news';
   }
 
   newsUrl(name) {
@@ -23,7 +24,7 @@ module.exports = class LineageMSiteReader {
   }
 
   constructor(newsType) {
-    this.type = Object.keys(LineageMSiteReader.NEWS_TYPE)[Object.values(LineageMSiteReader.NEWS_TYPE).indexOf(newsType)]
+    this.type = Object.keys(NEWS_TYPE)[Object.values(NEWS_TYPE).indexOf(newsType)]
     this.name = this.newsName(newsType);
     this.url = this.newsUrl(this.name);
     // console.log(this.type)
@@ -90,3 +91,5 @@ module.exports = class LineageMSiteReader {
     return diff;
   }
 }
+
+module.exports = {NEWS_TYPE, LineageMSiteReader};

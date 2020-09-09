@@ -2,23 +2,26 @@ require('dotenv').config();
 const cron = require('node-cron');
 const Discord = require('discord.js');
 const client = new Discord.Client();
-const LineageMSiteReader = require('./lineagem_site_reader');
+const { NEWS_TYPE, LineageMSiteReader } = require('./lineagem_site_reader');
 
 function pp(list) {
+  list.map(el => {
+    return `${el.date} **${el.text}**\n${el.url}\n`;
+  });
 }
 
-function list() {
-  let content;
-  try {
-    content = fs.readFileSync('news_maintenance', 'utf-8')
-  } catch (error) {
-    content = "newsなし";
-  }
-  return content;
-}
+// function list() {
+//   let content;
+//   try {
+//     content = fs.readFileSync('news_maintenance', 'utf-8')
+//   } catch (error) {
+//     content = "newsなし";
+//   }
+//   return content;
+// }
 
 // const reader = new LineageMSiteReader(LineageMSiteReader.NEWS_TYPE.news);
-const reader = new LineageMSiteReader(LineageMSiteReader.NEWS_TYPE.maintenance);
+const reader = new LineageMSiteReader(NEWS_TYPE.maintenance);
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
@@ -37,11 +40,11 @@ client.on('ready', () => {
 
 client.on('message', msg => {
     if (msg.content === 'news') {
-        msg.reply(list())
+        // msg.reply(list())
     } else if (msg.content === 'get_news') {
       reader.getUpdateNewsInfo().then((result) => {
         if (result.length !== 0) {
-          msg.reply(JSON.stringify(result));
+          msg.reply(pp(result));
         } else {
           msg.reply("newsなし");
         }
