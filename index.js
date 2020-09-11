@@ -31,7 +31,8 @@ client.on('ready', () => {
     console.log("news取得!");
     client.channels.fetch("739866379401953354").then(channel => {
       reader.getUpdateNewsInfo().then((result) => {
-        if (result.length !== -1) {
+        console.log(result)
+        if (result.length > 0) {
           channel.send(pp(result))
         }
       });
@@ -44,7 +45,7 @@ client.on('message', msg => {
         // msg.reply(list())
     } else if (msg.content === 'get_news') {
       reader.getUpdateNewsInfo().then((result) => {
-        if (result.length !== 0) {
+        if (result.length > 0) {
           console.log(result)
           console.log(pp(result))
           msg.reply(pp(result));
