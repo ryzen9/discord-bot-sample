@@ -11,7 +11,7 @@ const fs = require('fs');
     other: 5, 
   }
 
- class LineageMSiteReader {
+class LineageMSiteReader {
 
   newsName(type) {
     const name = Object.keys(NEWS_TYPE)[Object.values(NEWS_TYPE).indexOf(type)]
@@ -21,6 +21,11 @@ const fs = require('fs');
   newsUrl(name) {
     const BASE_URL = "https://lineagem-jp.com/";
     return `${BASE_URL}${name}`
+  }
+
+  filePath(path) {
+    const FILEPATH = "/tmp/";
+    return `${FILEPATH}${path}`
   }
 
   constructor(newsType) {
@@ -53,7 +58,7 @@ const fs = require('fs');
   async readOldContent(contentName) {
     let oldContent = "";
     try {
-      oldContent = await fs.readFileSync(contentName, 'utf-8');
+      oldContent = await fs.readFileSync(filePath(contentName), 'utf-8');
     } catch (error) {
       oldContent = "";
     }
@@ -62,7 +67,7 @@ const fs = require('fs');
 
   async writeOldContent(contentName, content) {
     // console.log(contentName)
-    await fs.writeFileSync(contentName, content, 'utf-8');
+    await fs.writeFileSync(filePath(contentName), content, 'utf-8');
   } 
 
   diffNewsJson(oldContent, newContent) {
