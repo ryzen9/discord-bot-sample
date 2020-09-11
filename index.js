@@ -5,9 +5,10 @@ const client = new Discord.Client();
 const { NEWS_TYPE, LineageMSiteReader } = require('./lineagem_site_reader');
 
 function pp(list) {
-  list.map(el => {
-    return `${el.date} **${el.text}**\n${el.url}\n`;
+  const content = list.map(el => {
+    return `${el.date} **${el.text}**\nhttps://lineagem-jp.com/${el.url}\n`;
   });
+  return content.join("\n");
 }
 
 // function list() {
@@ -20,18 +21,18 @@ function pp(list) {
 //   return content;
 // }
 
-// const reader = new LineageMSiteReader(LineageMSiteReader.NEWS_TYPE.news);
-const reader = new LineageMSiteReader(NEWS_TYPE.maintenance);
+const reader = new LineageMSiteReader(NEWS_TYPE.news);
+// const reader = new LineageMSiteReader(NEWS_TYPE.maintenance);
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
 
   cron.schedule('0/15 0 * * * *', () => {
     console.log("news取得!");
-    client.channels.fetch("739866379401953400").then(channel => {
+    client.channels.fetch("739866379401953354").then(channel => {
       reader.getUpdateNewsInfo().then((result) => {
         if (result.length !== -1) {
-          channel.send(JSON.stringify(result));
+          channel.send(pp(result))
         }
       });
     });
@@ -44,6 +45,8 @@ client.on('message', msg => {
     } else if (msg.content === 'get_news') {
       reader.getUpdateNewsInfo().then((result) => {
         if (result.length !== 0) {
+          console.log(result)
+          console.log(pp(result))
           msg.reply(pp(result));
         } else {
           msg.reply("newsなし");
