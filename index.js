@@ -27,7 +27,7 @@ const reader = new LineageMSiteReader(NEWS_TYPE.maintenance);
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
 
-  cron.schedule('0/45 0 * * * *', () => {
+  cron.schedule('0/45 * * * * *', () => {
     console.log("news取得!");
     client.channels.fetch("739866379401953354").then(channel => {
       reader.getUpdateNewsInfo().then((result) => {

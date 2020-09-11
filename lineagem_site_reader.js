@@ -58,7 +58,7 @@ class LineageMSiteReader {
   async readOldContent(contentName) {
     let oldContent = "";
     try {
-      oldContent = await fs.readFileSync(filePath(contentName), 'utf-8');
+      oldContent = await fs.readFileSync(this.filePath(contentName), 'utf-8');
     } catch (error) {
       oldContent = "";
     }
@@ -67,7 +67,7 @@ class LineageMSiteReader {
 
   async writeOldContent(contentName, content) {
     // console.log(contentName)
-    await fs.writeFileSync(filePath(contentName), content, 'utf-8');
+    await fs.writeFileSync(this.filePath(contentName), content, 'utf-8');
   } 
 
   diffNewsJson(oldContent, newContent) {
