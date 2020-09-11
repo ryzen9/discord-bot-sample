@@ -21,8 +21,8 @@ function pp(list) {
 //   return content;
 // }
 
-const reader = new LineageMSiteReader(NEWS_TYPE.news);
-// const reader = new LineageMSiteReader(NEWS_TYPE.maintenance);
+// const reader = new LineageMSiteReader(NEWS_TYPE.news);
+const reader = new LineageMSiteReader(NEWS_TYPE.maintenance);
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
